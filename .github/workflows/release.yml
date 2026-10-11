@@ -57,10 +57,15 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
+          assets=(
+            dist/hypr-auto-cleanup-linux-v1.0.0.tar.gz
+            dist/hypr-auto-cleanup-windows-v1.0.0.zip
+            dist/SHA256SUMS.txt
+          )
           if gh release view v1.0.0 >/dev/null 2>&1; then
-            gh release upload v1.0.0 dist/* --clobber
+            gh release upload v1.0.0 "${assets[@]}" --clobber
           else
-            gh release create v1.0.0 dist/* \
+            gh release create v1.0.0 "${assets[@]}" \
               --title 'Hypr Auto-Cleanup v1.0.0' \
               --notes 'First cross-platform release: Hyprland/Linux and Windows 10/11.'
           fi
